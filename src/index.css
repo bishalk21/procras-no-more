@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Nunito+Sans:opsz@6..12&family=Open+Sans&family=Poppins&family=Raleway&family=Roboto&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @layer base {
+  html {
+    font-family: Lato, Nunito Sans, Open Sans, Poppins, Raleway, Roboto,
+      Proxima Nova, system-ui, sans-serif;
+  }
+} */

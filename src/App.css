@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.timer span,
+.circle span {
+  border-radius: 9999px;
+  border: 1px solid rgb(128, 128, 128);
+  box-shadow: 0 0 5px gray;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  cursor: pointer;
+  min-width: max-content;
+}
+
+.timer .active {
+  background: rgb(62, 134, 206);
+  border: 1px solid rgb(74, 140, 165);
+  box-shadow: 0 0 5px skyblue;
+  color: white;
+}
+
+.timer span:hover,
+.timer .active:hover {
+  background: rgba(128, 128, 128, 0.063);
+  border: 1px solid rgb(128, 128, 128);
+  color: black;
+}
+
+.input-field input {
+  border-radius: 10px;
+  border: 1px solid rgb(128, 128, 128);
+  box-shadow: 0 0 5px gray;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  background: transparent;
+}
+
+.table-auto thead tr th,
+.table-auto tbody tr td {
+  border: 1px solid rgb(128, 128, 128);
+  box-shadow: 0 0 5px gray;
+  padding: 0.5rem;
+  text-align: start;
+}
+
+.completed tbody tr td {
+  font-style: italic;
+  text-decoration: line-through;
+}
