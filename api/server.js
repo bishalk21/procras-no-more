@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import express from "express"; // handling http requests, view rendering, application settings, middleware, - create and configure a web server
+import { dbConnect } from "./src/config/dbConfig.js";
 const app = express(); // instance of the Express application, which represents your web server.
 // console.log(app);
 
@@ -7,6 +8,8 @@ app.use(express.json()); // built-in middleware method or function, parses incom
 
 // PORT
 const PORT = 8000;
+
+dbConnect();
 
 // defining route or a middleware function in an Express application
 app.use("/", (req, res) => {
