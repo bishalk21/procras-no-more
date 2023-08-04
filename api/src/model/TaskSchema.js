@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const taskSchema = new mongoose.schema(
+const taskSchema = new mongoose.Schema(
   {
     task: {
       type: String,
@@ -13,8 +13,10 @@ const taskSchema = new mongoose.schema(
       required: true,
       max: 186,
     },
-    type: String,
-    default: "not completed",
+    type: {
+      type: String,
+      default: "not completed",
+    },
   },
   {
     timestamps: true,

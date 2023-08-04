@@ -47,7 +47,7 @@
   text-align: start;
 }
 
-.completed tbody tr td {
+.completed tbody tr td.task-name {
   font-style: italic;
   text-decoration: line-through;
 }

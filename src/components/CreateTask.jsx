@@ -4,6 +4,7 @@ import { useState } from "react";
 const initialState = {
   task: "",
   hours: "",
+  type: "not completed",
 };
 
 const CreateTask = ({ addTask }) => {

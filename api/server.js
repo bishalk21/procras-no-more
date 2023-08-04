@@ -1,15 +1,24 @@
 /* eslint-disable no-unused-vars */
 import express from "express"; // handling http requests, view rendering, application settings, middleware, - create and configure a web server
+import helmet from "helmet";
+import cors from "cors";
 import { dbConnect } from "./src/config/dbConfig.js";
+import taskRouter from "./src/routers/taskRouter.js";
+
 const app = express(); // instance of the Express application, which represents your web server.
 // console.log(app);
 
 app.use(express.json()); // built-in middleware method or function, parses incoming requests with JSON payloads and is based on bodyParser.
+app.use(cors());
+app.use(helmet());
 
 // PORT
 const PORT = 8000;
 
 dbConnect();
+
+// setting up and using an Express router to handle routes related to tasks.
+app.use("/api/v1/task", taskRouter);
 
 // defining route or a middleware function in an Express application
 app.use("/", (req, res) => {
