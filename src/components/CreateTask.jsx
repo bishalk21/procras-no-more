@@ -1,13 +1,16 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
 const initialState = {
   task: "",
   hours: "",
+  date: null,
   type: "not completed",
 };
 
-const CreateTask = ({ addTask }) => {
+const CreateTask = ({ addTask, tomorrow }) => {
   const [tasks, setTasks] = useState(initialState);
 
   // function to capture the data from search form and pass it to app.js
@@ -28,7 +31,13 @@ const CreateTask = ({ addTask }) => {
     // passing the tasks to app
     // no need now sending data to database where id will be assigned
     // addTask({ ...tasks, id: uuidv4() });
-    addTask(tasks);
+    // addTask(tasks);
+
+    // Update tasks object to include the date from the "tomorrow" prop
+    const updatedTasks = { ...tasks, date: tomorrow };
+    // console.log(updatedTasks);
+    // passing the updated tasks to app
+    addTask(updatedTasks);
   };
 
   return (
@@ -71,5 +80,34 @@ const CreateTask = ({ addTask }) => {
     </div>
   );
 };
+
+const withTomorrowDate = (WrappedComponent) => {
+  return (props) => {
+    const initialDate = "2023-08-05";
+    const [date, setDate] = useState(initialDate);
+
+    const handleDateChange = (e) => {
+      setDate(e.target.value);
+    };
+
+    return (
+      <div>
+        <h3 className="text-center font-bold">{props.title}</h3>
+        <br />
+        <input
+          type="date"
+          value={date}
+          onChange={handleDateChange}
+          min={new Date().toISOString().slice(0, 10)}
+        />
+        <br />
+        <WrappedComponent {...props} addTask={props.addTask} tomorrow={date} />
+      </div>
+    );
+  };
+};
+
+// CreateDateTask with enhanced CreateTask component
+export const CreateDateTask = withTomorrowDate(CreateTask);
 
 export default CreateTask;

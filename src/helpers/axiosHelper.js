@@ -37,3 +37,15 @@ export const updateTasks = async (task) => {
     };
   }
 };
+
+export const deleteTask = async (_id) => {
+  try {
+    const { data } = await axios.delete(apiEp + _id);
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

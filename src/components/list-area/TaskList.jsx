@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-const TaskList = ({ list = [], title, name, switchTask }) => {
+const TaskList = ({ list = [], title, name, switchTask, handleOnDelete }) => {
   console.log(list);
+
   return (
     <div className="flex w-full overflow-hidden flex-col py-6">
       <h3 className="font-normal text-gray-500">
@@ -19,7 +20,7 @@ const TaskList = ({ list = [], title, name, switchTask }) => {
                 <i className="fa-solid fa-check-to-slot w-4 h-4 text-blue-600"></i>
               </th>
               <th>Task</th>
-              <th>Hours</th>
+              <th>Complete By</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -45,12 +46,17 @@ const TaskList = ({ list = [], title, name, switchTask }) => {
                     ></input>
                   </td>
                   <td className="task-name">{item.task}</td>
-                  <td>{item.hours} hrs</td>
+                  <td>
+                    {item.hours} hours {item.date && item.date.substr(0, 10)}
+                  </td>
                   <td className="flex flex-row gap-1">
                     <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded">
                       Edit
                     </button>
-                    <button className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded">
+                    <button
+                      className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
+                      onClick={() => handleOnDelete(item._id)}
+                    >
                       Delete
                     </button>
                   </td>

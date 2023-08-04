@@ -17,6 +17,9 @@ const taskSchema = new mongoose.Schema(
       type: String,
       default: "not completed",
     },
+    date: {
+      type: Date, // Use the Date type for the date field
+    },
   },
   {
     timestamps: true,
