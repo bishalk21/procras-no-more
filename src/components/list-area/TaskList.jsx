@@ -46,8 +46,11 @@ const TaskList = ({ list = [], title, name, switchTask, handleOnDelete }) => {
                     ></input>
                   </td>
                   <td className="task-name">{item.task}</td>
-                  <td>
-                    {item.hours} hours {item.date && item.date.substr(0, 10)}
+                  <td className="text-xs">
+                    <span className="font-semibold">
+                      {item.date && item.date.substr(0, 10)}
+                    </span>{" "}
+                    ({item.hours}H)
                   </td>
                   <td className="flex flex-row gap-1">
                     <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded">

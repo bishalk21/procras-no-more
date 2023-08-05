@@ -1,7 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import React, { useState, memo, useEffect } from "react";
 
 const initialState = {
   task: "",
@@ -83,8 +84,15 @@ const CreateTask = ({ addTask, tomorrow }) => {
 
 const withTomorrowDate = (WrappedComponent) => {
   return (props) => {
-    const initialDate = "2023-08-05";
-    const [date, setDate] = useState(initialDate);
+    const [date, setDate] = useState("");
+
+    useEffect(() => {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const initialDate = tomorrow.toISOString().slice(0, 10);
+      setDate(initialDate);
+    }, []); // Empty dependency array to run this effect only once on component mount
 
     const handleDateChange = (e) => {
       setDate(e.target.value);
@@ -108,6 +116,6 @@ const withTomorrowDate = (WrappedComponent) => {
 };
 
 // CreateDateTask with enhanced CreateTask component
-export const CreateDateTask = withTomorrowDate(CreateTask);
+export const CreateDateTask = React.memo(withTomorrowDate(CreateTask));
 
 export default CreateTask;

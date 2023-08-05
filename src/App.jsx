@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import CreateTask, { CreateDateTask } from "./components/CreateTask";
 import ProjectList from "./components/ProjectList";
@@ -11,7 +11,8 @@ import {
   postTask,
   updateTasks,
 } from "./helpers/axiosHelper";
-import CustomModal from "../api/src/model/CustomModal";
+import { MemoizedCustomModal } from "./components/modal/CustomModal";
+const MemoizedTimeNotify = React.memo(TimeNotify);
 
 function App() {
   const [tasksList, setTasksList] = useState([]);
@@ -49,15 +50,15 @@ function App() {
     }
   };
 
-  const handleTomorrowClick = () => {
+  const handleTomorrowClick = useCallback(() => {
     setShowModal((prevShowModal) => !prevShowModal);
-  };
+  }, []);
 
   return (
     <>
       <div className="flex text-sm flex-col w-full h-full bg-white mx-auto p-8 items-start">
         <h1 className="font-bold text-xl mb-2">New Task</h1>
-        <TimeNotify handleTomorrowClick={handleTomorrowClick} />
+        <MemoizedTimeNotify handleTomorrowClick={handleTomorrowClick} />
         <ProjectList />
         <CreateTask addTask={addTask} />
         <ListArea
@@ -67,12 +68,12 @@ function App() {
           handleOnDelete={handleOnDelete}
         />
         {showModal && (
-          <CustomModal onClose={() => setShowModal(false)}>
+          <MemoizedCustomModal onClose={() => setShowModal(false)}>
             <CreateDateTask
-              title="Tomorrow's Agenda" // Provide a title for CreateDateTask
+              title="Create Date Task" // Provide a title for CreateDateTask
               addTask={addTask}
             />
-          </CustomModal>
+          </MemoizedCustomModal>
         )}
       </div>
     </>
