@@ -1,8 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
+import { MemoizedCustomModal } from "./modal/CustomModal";
 
-const TimeNotify = ({ handleTomorrowClick }) => {
+const TimeNotify = ({
+  notificationCount,
+  handleTomorrowClick,
+  setTaskNotifications,
+}) => {
   const [pomodoroTimer, setPomodoroTimer] = useState(false);
   const [isWorking, setIsWorking] = useState(true);
   const [secondsLeft, setSecondsLeft] = useState(25 * 60); // 25 minutes in seconds
@@ -43,6 +48,16 @@ const TimeNotify = ({ handleTomorrowClick }) => {
   const handleOnSetTimer = () => {
     setPomodoroTimer((prevShowModal) => !prevShowModal);
   };
+
+  const handleNotificationClick = () => {
+    // Set notification modal open state to true and reset the notification count to 0
+    setTaskNotifications((prevNotifications) => ({
+      ...prevNotifications,
+      isModalOpen: true,
+      count: 0,
+    }));
+  };
+
   return (
     <div className="timer flex flex-wrap gap-2 py-4">
       <span className="active">Today</span>
@@ -53,10 +68,34 @@ const TimeNotify = ({ handleTomorrowClick }) => {
         <span className="" onClick={handleOnSetTimer}>
           <i className="fa-solid fa-clock"></i>
         </span>
-        <span className="">
+        <span className="relative" onClick={handleNotificationClick}>
           <i className="fa-solid fa-bell"></i>
+
+          {notificationCount.count > 0 && (
+            <div className="bg-green-400 w-5 h-5 rounded-full text-center absolute text-xs -right-1 -top-1 z-50">
+              {notificationCount.count}
+            </div>
+          )}
         </span>
       </div>
+      <>
+        {notificationCount.isModalOpen && (
+          <MemoizedCustomModal
+            onClose={() =>
+              setTaskNotifications((prevNotifications) => ({
+                ...prevNotifications,
+                isModalOpen: false,
+              }))
+            }
+          >
+            <div>
+              <h3>New Item Added</h3>
+              <p>Title: {notificationCount.newTask?.task}</p>
+              <p>Date to be completed on: {notificationCount.newTask?.date}</p>
+            </div>
+          </MemoizedCustomModal>
+        )}
+      </>
       {pomodoroTimer && (
         <div className="timer flex flex-wrap gap-2 py-4">
           <span

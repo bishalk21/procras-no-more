@@ -5,3 +5,8 @@ directories.
 # Path: frontend/README.md
 
 # Path: backend/README.md
+
+//TODO: 
+- STATE TO HANDLE STATE FOR NOTIFICATIONS
+- UPDATE AND SHOW THE MODEL
+- 

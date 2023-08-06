@@ -2,7 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 
-import React, { memo } from "react";
+import React from "react";
 
 const CustomModal = ({ onClose, children }) => {
   const handleContentClick = (e) => {

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 const TaskList = ({ list = [], title, name, switchTask, handleOnDelete }) => {
-  console.log(list);
+  // console.log(list);
 
   return (
     <div className="flex w-full overflow-hidden flex-col py-6">

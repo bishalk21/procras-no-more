@@ -18,6 +18,12 @@ function App() {
   const [tasksList, setTasksList] = useState([]);
   const [ids, setIds] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [taskNotifications, setTaskNotifications] = useState({
+    count: 0,
+    tasks: [],
+    isModalOpen: false,
+    newTask: null, // Store the details of the new task to display in the notification
+  });
 
   useEffect(() => {
     getTasks();
@@ -25,12 +31,24 @@ function App() {
 
   const getTasks = async () => {
     const data = await fetchTasks();
-    data.status === "success" && setTasksList(data.result);
+    data.status === "success" &&
+      setTasksList(data.result) &&
+      setTaskNotifications((prevNotifications) => ({
+        ...prevNotifications,
+        tasks: data.result,
+      }));
   };
 
   const addTask = async (task) => {
     const result = await postTask(task);
-    result.status === "success" && getTasks();
+    result.status === "success" &&
+      getTasks() &&
+      setTaskNotifications((prevNotifications) => ({
+        ...prevNotifications,
+        count: prevNotifications.count + 1,
+        newTask: task, // Store the details of the new task
+        isModalOpen: true, // Show the notification modal
+      }));
   };
 
   const switchTask = async (_id, type) => {
@@ -58,7 +76,11 @@ function App() {
     <>
       <div className="flex text-sm flex-col w-full h-full bg-white mx-auto p-8 items-start">
         <h1 className="font-bold text-xl mb-2">New Task</h1>
-        <MemoizedTimeNotify handleTomorrowClick={handleTomorrowClick} />
+        <MemoizedTimeNotify
+          setTaskNotifications={setTaskNotifications}
+          notificationCount={taskNotifications}
+          handleTomorrowClick={handleTomorrowClick}
+        />
         <ProjectList />
         <CreateTask addTask={addTask} />
         <ListArea
