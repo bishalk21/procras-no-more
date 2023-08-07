@@ -1,7 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-const TaskList = ({ list = [], title, name, switchTask, handleOnDelete }) => {
+const TaskList = ({
+  list = [],
+  handleOnEdit,
+  title,
+  name,
+  switchTask,
+  handleOnDelete,
+}) => {
   // console.log(list);
+
+  const handleOnEditItem = (item) => {
+    handleOnEdit(item);
+  };
 
   return (
     <div className="flex w-full overflow-hidden flex-col py-6">
@@ -26,45 +37,46 @@ const TaskList = ({ list = [], title, name, switchTask, handleOnDelete }) => {
           </thead>
           <tbody>
             {list.map((item) => (
-              <>
-                <tr key={item._id}>
-                  <td>
-                    <input
-                      onClick={() =>
-                        switchTask(
-                          item._id,
-                          item.type === "completed"
-                            ? "not completed"
-                            : "completed"
-                        )
-                      }
-                      id="checked-checkbox"
-                      type="checkbox"
-                      checked={item.type === "completed"}
-                      value={item._id}
-                      readOnly
-                    ></input>
-                  </td>
-                  <td className="task-name">{item.task}</td>
-                  <td className="text-xs">
-                    <span className="font-semibold">
-                      {item.date && item.date.substr(0, 10)}
-                    </span>{" "}
-                    ({item.hours}H)
-                  </td>
-                  <td className="flex flex-row gap-1">
-                    <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded">
-                      Edit
-                    </button>
-                    <button
-                      className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
-                      onClick={() => handleOnDelete(item._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              </>
+              <tr key={item._id}>
+                <td>
+                  <input
+                    onClick={() =>
+                      switchTask(
+                        item._id,
+                        item.type === "completed"
+                          ? "not completed"
+                          : "completed"
+                      )
+                    }
+                    id="checked-checkbox"
+                    type="checkbox"
+                    checked={item.type === "completed"}
+                    value={item._id}
+                    readOnly
+                  ></input>
+                </td>
+                <td className="task-name">{item.task}</td>
+                <td className="text-xs">
+                  <span className="font-semibold">
+                    {item.date && item.date.substr(0, 10)}
+                  </span>{" "}
+                  ({item.hours}H)
+                </td>
+                <td className="flex flex-row gap-1">
+                  <button
+                    onClick={() => handleOnEditItem(item)}
+                    className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
+                    onClick={() => handleOnDelete(item._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>

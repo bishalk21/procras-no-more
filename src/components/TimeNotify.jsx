@@ -88,10 +88,13 @@ const TimeNotify = ({
               }))
             }
           >
-            <div>
+            <div className="w-full min-h-[20vh] flex items-start justify-center flex-col">
               <h3>New Item Added</h3>
               <p>Title: {notificationCount.newTask?.task}</p>
-              <p>Date to be completed on: {notificationCount.newTask?.date}</p>
+              <p>
+                Date to be completed on:{" "}
+                {"n/a" || notificationCount.newTask?.date}
+              </p>
             </div>
           </MemoizedCustomModal>
         )}

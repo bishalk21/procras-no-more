@@ -9,15 +9,25 @@ import {
   deleteTask,
   fetchTasks,
   postTask,
+  updateTaskAll,
   updateTasks,
 } from "./helpers/axiosHelper";
 import { MemoizedCustomModal } from "./components/modal/CustomModal";
+import EditTask from "./components/EditTask";
 const MemoizedTimeNotify = React.memo(TimeNotify);
 
 function App() {
+  const [editedTask, setEditedTask] = useState({
+    _id: "64cf2f8031fdfa65c92c759c", // Replace this with the actual task _id
+    task: "Task Title",
+    hours: 5,
+    date: "2023-08-08",
+    type: "completed",
+  });
   const [tasksList, setTasksList] = useState([]);
   const [ids, setIds] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [taskNotifications, setTaskNotifications] = useState({
     count: 0,
     tasks: [],
@@ -29,6 +39,12 @@ function App() {
     getTasks();
   }, []);
 
+  const handleOnEdit = (task) => {
+    console.log("Editing task with _id:", task._id); // Editing task with _id: undefined
+    setEditedTask(task);
+    setShowEdit(true);
+  };
+
   const getTasks = async () => {
     const data = await fetchTasks();
     data.status === "success" &&
@@ -37,6 +53,11 @@ function App() {
         ...prevNotifications,
         tasks: data.result,
       }));
+  };
+
+  const handleOnUpdateTasks = async (task) => {
+    const result = await updateTaskAll(task);
+    result.success === "success" && getTasks();
   };
 
   const addTask = async (task) => {
@@ -88,7 +109,25 @@ function App() {
           switchTask={switchTask}
           tasksList={tasksList}
           handleOnDelete={handleOnDelete}
+          handleOnEdit={handleOnEdit}
         />
+
+        <>
+          {showEdit && editedTask && (
+            <MemoizedCustomModal onClose={() => setShowModal(false)}>
+              <EditTask
+                title="Update Task"
+                editedTask={editedTask}
+                UpdateTask={handleOnUpdateTasks}
+                onClose={() => {
+                  setShowModal(false);
+                  setEditedTask(null);
+                }}
+              />
+            </MemoizedCustomModal>
+          )}
+        </>
+
         {showModal && (
           <MemoizedCustomModal onClose={() => setShowModal(false)}>
             <CreateDateTask

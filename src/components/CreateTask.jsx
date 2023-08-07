@@ -82,7 +82,7 @@ const CreateTask = ({ addTask, tomorrow }) => {
   );
 };
 
-const withTomorrowDate = (WrappedComponent) => {
+export const withTomorrowDate = (WrappedComponent) => {
   return (props) => {
     const [date, setDate] = useState("");
 

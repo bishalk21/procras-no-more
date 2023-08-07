@@ -6,6 +6,7 @@ import {
   getTaskById,
   insertTask,
   updateTask,
+  updateTaskAll,
 } from "../model/TaskModel.js";
 const router = express.Router();
 
@@ -61,14 +62,24 @@ router.patch("/", async (req, res, next) => {
   }
 });
 
-// DELETE a single task by ID
-router.delete("/:_id", async (req, res, next) => {
+router.patch("/:_id", async (req, res, next) => {
   try {
-    const { _id } = req.params;
-    const result = await deleteTask(_id);
+    console.log("Received PATCH request:", req.params);
+
+    const { task, hours, date, type } = req.body;
+    const { _id } = req.params; // Access _id directly from req.params
+
+    const updatedTask = {
+      task,
+      hours,
+      date,
+      type,
+    };
+
+    const result = await updateTaskAll({ _id, ...updatedTask });
     res.json({
       status: "success",
-      message: "Task deleted",
+      message: "Task updated",
       result,
     });
   } catch (error) {

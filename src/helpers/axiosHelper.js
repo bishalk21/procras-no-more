@@ -38,6 +38,24 @@ export const updateTasks = async (task) => {
   }
 };
 
+export const updateTaskAll = async (task) => {
+  try {
+    const { _id, ...rest } = task;
+
+    if (!_id) {
+      throw new Error("Task ID (_id) is undefined.");
+    }
+
+    const { data } = await axios.patch(`${apiEp}${_id}`, rest);
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+
 export const deleteTask = async (_id) => {
   try {
     const { data } = await axios.delete(apiEp + _id);

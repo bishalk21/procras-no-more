@@ -1,32 +1,36 @@
-import TaskSchema from "./TaskSchema.js";
+import Task from "./TaskSchema.js";
 
 // crud operations
 
 // CREATE
 export const insertTask = (task) => {
-  return TaskSchema(task).save();
+  return Task(task).save();
 };
 
 // READ
 export const getTask = () => {
-  return TaskSchema.find();
+  return Task.find();
 };
 
 export const getTaskById = (_id) => {
-  return TaskSchema.findById(_id);
+  return Task.findById(_id);
 };
 
 // UPDATE
 export const updateTask = (_id, type) => {
-  return TaskSchema.findByIdAndUpdate(_id, { type: type }, { new: true });
+  return Task.findByIdAndUpdate(_id, { type: type }, { new: true });
+};
+
+export const updateTaskAll = ({ _id, ...rest }) => {
+  return Task.findByIdAndUpdate(_id, rest, { new: true });
 };
 
 export const deleteTask = (_id) => {
-  return TaskSchema.findByIdAndDelete(_id);
+  return Task.findByIdAndDelete(_id);
 };
 
 export const deleteAllTask = (ids) => {
-  return TaskSchema.deleteMany({
+  return Task.deleteMany({
     _id: {
       $in: ids,
     },
