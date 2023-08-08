@@ -58,7 +58,7 @@ export const updateTaskAll = async (task) => {
 
 export const deleteTask = async (_id) => {
   try {
-    const { data } = await axios.delete(apiEp + _id);
+    const { data } = await axios.delete(`${apiEp}${_id}`);
     return data;
   } catch (error) {
     return {

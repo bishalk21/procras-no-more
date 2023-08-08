@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   const handleOnEdit = (task) => {
-    console.log("Editing task with _id:", task._id); // Editing task with _id: undefined
+    // console.log("Editing tas k with _id:", task._id); // Editing task with _id: undefined
     setEditedTask(task);
     setShowEdit(true);
   };
@@ -57,7 +57,7 @@ function App() {
 
   const handleOnUpdateTasks = async (task) => {
     const result = await updateTaskAll(task);
-    result.success === "success" && getTasks();
+    result.status === "success" && getTasks();
   };
 
   const addTask = async (task) => {

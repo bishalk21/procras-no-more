@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import "dotenv/config";
 import express from "express"; // handling http requests, view rendering, application settings, middleware, - create and configure a web server
 import helmet from "helmet";
 import cors from "cors";

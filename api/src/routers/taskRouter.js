@@ -64,7 +64,7 @@ router.patch("/", async (req, res, next) => {
 
 router.patch("/:_id", async (req, res, next) => {
   try {
-    console.log("Received PATCH request:", req.params);
+    // console.log("Received PATCH request:", req.params);
 
     const { task, hours, date, type } = req.body;
     const { _id } = req.params; // Access _id directly from req.params
@@ -83,6 +83,21 @@ router.patch("/:_id", async (req, res, next) => {
       result,
     });
   } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:_id", async (req, res, next) => {
+  try {
+    const { _id } = req.params;
+    const result = await deleteTask(_id);
+    res.json({
+      status: "success",
+      message: "Task successfully deleted",
+      result,
+    });
+  } catch (error) {
+    error.status = 500;
     next(error);
   }
 });

@@ -2,7 +2,7 @@
 // EditTask.jsx
 import { useState } from "react";
 
-const EditTask = ({ title, editedTask, UpdateTask }) => {
+const EditTask = ({ title, editedTask, onClose, UpdateTask }) => {
   const [updatedTask, setUpdatedTask] = useState(editedTask);
   //   console.log(editedTask); // 64cf3fadefb1c13d4eb59a43
 
@@ -16,7 +16,7 @@ const EditTask = ({ title, editedTask, UpdateTask }) => {
 
   //   console.log(updatedTask); // 64cf3fadefb1c13d4eb59a43
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
     try {
@@ -26,7 +26,7 @@ const EditTask = ({ title, editedTask, UpdateTask }) => {
       //   if (result.status === "success") {
       //     onClose();
       //   }
-      UpdateTask(updatedTask);
+      UpdateTask(updatedTask) && onClose();
     } catch (error) {
       console.error(error);
     }
