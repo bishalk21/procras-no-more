@@ -26,6 +26,12 @@ const __dirname = path.resolve();
 
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
+app.use(
+  cors({
+    origin: "https://procras-no-more-frontend.vercel.app/",
+  })
+);
+
 // defining route or a middleware function in an Express application
 app.use("/", (req, res) => {
   // const jf = {
