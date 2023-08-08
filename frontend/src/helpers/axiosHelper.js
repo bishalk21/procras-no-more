@@ -1,6 +1,16 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
-const apiEp = "http://localhost:8000/api/v1/task/";
+// production vs development version
+const rootURL =
+  process.env.NODE_ENV === "production"
+    ? ""
+    : process.env.REACT_APP_API_ENDPOINT;
+
+// ENDPOINT
+const apiEp = rootURL + "/api/v1/task/";
+
+// const apiEp = "http://localhost:8000/api/v1/task/";
 
 export const postTask = async (task) => {
   try {
