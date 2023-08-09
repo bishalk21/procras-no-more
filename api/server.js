@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, "/frontend/dist")));
 app.use(
   cors({
     origin: "https://procras-no-more-frontend.vercel.app/",
+    credentials: true,
   })
 );
 
