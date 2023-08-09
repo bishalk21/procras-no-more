@@ -1,4 +1,27 @@
-This is my Not TøDo List App.
+This is Procast No More App.
+
+Live: https://procras-no-more-frontend.vercel.app/
+Code: https://github.com/bishalk21/procras-no-more/tree/main
+
+Tools: Vite.js, Tailwind CSS, Axios, React.js, Express.js, Node.js, MongoDB, NPM packages
+
+Features:
+- Add Task: Name, To be completed by date, task hours
+- Switch Task if completed 
+- Edit and Update Task
+- Delete Task
+
+Key Learnings:
+- Data fetching - asynchronous data - axios
+- state and data management - useState
+- ui management - useEffect
+- schema data validation, crud operations
+- server and database configuration
+- rest apis
+- express middleware, routing, error handling
+- git and gitHub for project
+- and final deployment in vercel
+
 
 This is a simple app that I made to learn React and Redux. It is a simple app that allows you to add and remove tasks from a list. It also allows you to mark tasks as completed.
 
