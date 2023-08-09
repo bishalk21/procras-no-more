@@ -4,7 +4,7 @@ import axios from "axios";
 // production vs development version
 const rootURL =
   process.env.NODE_ENV === "production"
-    ? ""
+    ? "http://localhost:8000"
     : process.env.REACT_APP_API_ENDPOINT;
 
 // ENDPOINT
