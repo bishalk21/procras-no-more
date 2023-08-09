@@ -30,7 +30,9 @@ app.use(
   cors({
     origin: "https://procras-no-more-frontend.vercel.app/",
     credentials: true,
-    methods: ["POST", "GET", "PATCH", "DELETE"],
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Authorization,Content-Type",
+    exposedHeaders: "Authorization",
   })
 );
 
