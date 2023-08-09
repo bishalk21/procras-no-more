@@ -95,7 +95,7 @@ function App() {
 
   return (
     <>
-      <div className="flex max-w-[80%] text-sm flex-col w-full h-full bg-white mx-auto p-8 items-start">
+      <div className="flex max-w-[85%] text-sm flex-col w-full h-full bg-white mx-auto pt-8 p-0 items-start">
         <h1 className="font-bold text-xl mb-2">New Task</h1>
         <MemoizedTimeNotify
           setTaskNotifications={setTaskNotifications}

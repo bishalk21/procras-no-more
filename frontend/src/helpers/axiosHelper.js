@@ -5,7 +5,7 @@ import axios from "axios";
 const rootURL =
   process.env.NODE_ENV === "production"
     ? "http://localhost:8000"
-    : process.env.REACT_APP_API_ENDPOINT;
+    : "http://localhost:8000";
 
 // ENDPOINT
 const apiEp = rootURL + "/api/v1/task/";
