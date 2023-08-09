@@ -4,6 +4,7 @@ import express from "express"; // handling http requests, view rendering, applic
 import helmet from "helmet";
 import cors from "cors";
 // import path from "path";
+import http from "http";
 import { dbConnect } from "./src/config/dbConfig.js";
 import taskRouter from "./src/routers/taskRouter.js";
 
@@ -56,8 +57,10 @@ app.use((error, req, res, next) => {
   });
 });
 
+const server = http.createServer(app);
+
 // starting the Express server and listening for incoming requests on a specified port
-app.listen(PORT, (error) => {
+server.listen(PORT, (error) => {
   error && console.log(error);
   console.log(`Server is running on port: http://localhost:${PORT}`);
 });
