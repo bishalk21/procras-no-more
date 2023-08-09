@@ -3,7 +3,7 @@ import "dotenv/config";
 import express from "express"; // handling http requests, view rendering, application settings, middleware, - create and configure a web server
 import helmet from "helmet";
 import cors from "cors";
-import path from "path";
+// import path from "path";
 import { dbConnect } from "./src/config/dbConfig.js";
 import taskRouter from "./src/routers/taskRouter.js";
 
@@ -22,25 +22,26 @@ dbConnect();
 // setting up and using an Express router to handle routes related to tasks.
 app.use("/api/v1/task", taskRouter);
 
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 app.use(
   cors({
     origin: "https://procras-no-more-frontend.vercel.app/",
     credentials: true,
+    methods: ["POST", "GET", "PATCH", "DELETE"],
   })
 );
 
 // defining route or a middleware function in an Express application
 app.use("/", (req, res) => {
-  // const jf = {
-  //   status: "success",
-  //   message: "Hi you hit the procraste-no-more api endpoint",
-  // };
-  // res.json(jf);
-  res.sendFile(path.join(__dirname, "/frontend/dist/index.html"));
+  const jf = {
+    status: "success",
+    message: "Hi you hit the procraste-no-more api endpoint",
+  };
+  res.json(jf);
+  // res.sendFile(path.join(__dirname, "/frontend/dist/index.html"));
 });
 
 // an global error-handling middleware in an Express application
