@@ -8,13 +8,14 @@ const rootURL =
     : "http://localhost:8000";
 
 // ENDPOINT
-const apiEp = rootURL + "/api/v1/task/";
+const taskEp = rootURL + "/api/v1/task/";
+const userEp = rootURL + "/api/v1/user/";
 
-// const apiEp = "http://localhost:8000/api/v1/task/";
+// const taskEp = "http://localhost:8000/api/v1/task/";
 
 export const postTask = async (task) => {
   try {
-    const { data } = await axios.post(apiEp, task);
+    const { data } = await axios.post(taskEp, task);
     return data;
   } catch (error) {
     return {
@@ -26,7 +27,7 @@ export const postTask = async (task) => {
 
 export const fetchTasks = async () => {
   try {
-    const { data } = await axios.get(apiEp);
+    const { data } = await axios.get(taskEp);
     return data;
   } catch (error) {
     return {
@@ -38,7 +39,7 @@ export const fetchTasks = async () => {
 
 export const updateTasks = async (task) => {
   try {
-    const { data } = await axios.patch(apiEp, task);
+    const { data } = await axios.patch(taskEp, task);
     return data;
   } catch (error) {
     return {
@@ -56,7 +57,7 @@ export const updateTaskAll = async (task) => {
       throw new Error("Task ID (_id) is undefined.");
     }
 
-    const { data } = await axios.patch(`${apiEp}${_id}`, rest);
+    const { data } = await axios.patch(`${taskEp}${_id}`, rest);
     return data;
   } catch (error) {
     return {
@@ -68,7 +69,19 @@ export const updateTaskAll = async (task) => {
 
 export const deleteTask = async (_id) => {
   try {
-    const { data } = await axios.delete(`${apiEp}${_id}`);
+    const { data } = await axios.delete(`${taskEp}${_id}`);
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+
+export const postNewUser = async (user) => {
+  try {
+    const { data } = await axios.post(userEp, user);
     return data;
   } catch (error) {
     return {

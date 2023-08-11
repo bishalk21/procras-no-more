@@ -7,7 +7,7 @@ import {
   insertTask,
   updateTask,
   updateTaskAll,
-} from "../model/TaskModel.js";
+} from "../model/tasks/TaskModel.js";
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {

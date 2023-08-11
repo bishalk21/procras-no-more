@@ -39,6 +39,8 @@ const CreateTask = ({ addTask, tomorrow }) => {
     // console.log(updatedTasks);
     // passing the updated tasks to app
     addTask(updatedTasks);
+    // resetting the task object after adding a new one
+    setTasks({});
   };
 
   return (

@@ -1,3 +1,4 @@
+### api test
 ### three hash to activate the api
 
 ### root api
@@ -34,4 +35,14 @@ Content-Type:  application/json
     "ids": [
         "63a670f08119c991e58a756b"
     ]
+}
+
+### Post new user
+POST http://localhost:8000/api/v1/user
+Content-Type: application/json
+
+{
+    "fullName": "Bishal Karki",
+    "email":"<EMAIL>",
+    "password": "<PASSWORD>"
 }

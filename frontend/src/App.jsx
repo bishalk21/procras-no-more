@@ -15,6 +15,7 @@ import {
 import { MemoizedCustomModal } from "./components/modal/CustomModal";
 import EditTask from "./components/EditTask";
 const MemoizedTimeNotify = React.memo(TimeNotify);
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [editedTask, setEditedTask] = useState({
@@ -95,6 +96,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer />
       <div className="flex max-w-[85%] text-sm flex-col w-full h-full bg-white mx-auto pt-8 p-0 items-start">
         <h1 className="font-bold text-xl mb-2">New Task</h1>
         <MemoizedTimeNotify
