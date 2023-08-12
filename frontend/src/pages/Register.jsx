@@ -38,8 +38,8 @@ const Register = () => {
   return (
     <>
       <div className="bg-grey-lighter min-h-screen flex flex-col">
-        <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+        <div className="container max-w-md w-11/12 mx-auto flex-1 flex flex-col items-center justify-center px-2">
+          <form className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-8 text-3xl text-center">Sign up</h1>
             {response.message && (
               <div
@@ -66,6 +66,7 @@ const Register = () => {
               </div>
             )}
             <input
+              autoComplete="true"
               onChange={handleOnChange}
               value={registerUserInfo.fullName}
               type="text"
@@ -75,6 +76,7 @@ const Register = () => {
             />
 
             <input
+              autoComplete="true"
               onChange={handleOnChange}
               value={registerUserInfo.email}
               type="text"
@@ -84,6 +86,7 @@ const Register = () => {
             />
 
             <input
+              autoComplete="true"
               onChange={handleOnChange}
               value={registerUserInfo.password}
               type="password"
@@ -92,6 +95,7 @@ const Register = () => {
               placeholder="Password"
             />
             <input
+              autoComplete="true"
               onChange={handleOnChange}
               value={registerUserInfo.confirmPassword}
               type="password"
@@ -124,12 +128,12 @@ const Register = () => {
                 Privacy Policy
               </a>
             </div>
-          </div>
+          </form>
 
           <div className="text-grey-dark mt-6">
             Already have an account?{" "}
             <Link
-              className="no-underline border-b border-blue- text-blue"
+              className="no-underline border-b border-blue-400 text-blue-600"
               to="/login"
             >
               Log in

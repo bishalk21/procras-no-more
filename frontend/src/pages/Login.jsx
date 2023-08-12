@@ -31,7 +31,7 @@ const Login = () => {
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="bg-white px-6 py-8 rounded shadow-md text-black w-4/5 mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action="#" method="POST">
             <div>
               <label
