@@ -12,7 +12,7 @@ const Login = () => {
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    user._id && navigate("/");
+    user._id && navigate("/dashboard");
   }, [user, navigate]);
 
   const handleOnSubmit = async (e) => {

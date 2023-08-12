@@ -18,7 +18,7 @@ const MemoizedTimeNotify = React.memo(TimeNotify);
 import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogoutAction } from "./reducers/users/userAction";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const [editedTask, setEditedTask] = useState({
@@ -39,13 +39,19 @@ function App() {
     newTask: null, // Store the details of the new task to display in the notification
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     getTasks();
-    !user?._id && navigate("/");
-  }, [user, navigate]);
+  }, []);
+
+  const handleOnLogout = () => {
+    // sessionStorage.removeItem("user");
+    dispatch(userLogoutAction());
+    navigate("/");
+  };
 
   const handleOnEdit = (task) => {
     // console.log("Editing tas k with _id:", task._id); // Editing task with _id: undefined
@@ -103,13 +109,41 @@ function App() {
 
   return (
     <>
-      <ToastContainer />
-      <div className="flex max-w-[85%] text-sm flex-col w-full h-full bg-white mx-auto pt-8 p-0 items-start">
-        <div className="flex gap-14 justify-between">
-          <h1 className="font-bold text-xl mb-2">New Task</h1>
-          <button type="submit" onClick={() => userLogoutAction()}>
-            Log out
-          </button>
+      <div className="flex max-w-[75%] text-sm flex-col w-full h-full bg-white mx-auto pt-8 p-0 items-start">
+        <div className="flex w-full justify-between">
+          <h1 className="font-bold text-xl mb-2">
+            {user._id ? `Hey ${user.fullName},` : ""} Add New Task
+          </h1>
+
+          {user._id ? (
+            <button
+              type="submit"
+              onClick={handleOnLogout}
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-1 rounded inline-flex gap-1 items-center"
+            >
+              <i className="fa-solid fa-right-from-bracket"></i>
+              <span> Log out</span>
+            </button>
+          ) : (
+            <>
+              <div className="flex flex-row gap-1">
+                <Link
+                  to="/login"
+                  className="bg-gray-300 max-h-10 hover:bg-gray-400 text-gray-800 font-bold p-2 rounded inline-flex gap-1 items-center"
+                >
+                  <i className="fa-solid fa-right-from-bracket"></i>
+                  <span> Login</span>
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-gray-300 max-h-10 hover:bg-gray-400 text-gray-800 font-bold p-2 rounded inline-flex gap-1 items-center"
+                >
+                  <i className="fa-solid fa-user-plus"></i>
+                  <span> Register</span>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
         <MemoizedTimeNotify
           setTaskNotifications={setTaskNotifications}
@@ -151,6 +185,8 @@ function App() {
           </MemoizedCustomModal>
         )}
       </div>
+
+      <ToastContainer />
     </>
   );
 }

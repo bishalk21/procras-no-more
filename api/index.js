@@ -31,9 +31,10 @@ app.use("/api/v1/user", userRouter);
 
 app.use(
   cors({
-    origin: "https://procras-no-more-frontend.vercel.app/",
+    origin:
+      "https://corsproxy.io/?https://procras-no-more-frontend.vercel.app/",
     credentials: true,
-    methods: "GET,POST,PUT,DELETE",
+    methods: "GET,POST,PUT,PATCH,DELETE",
     allowedHeaders: "Authorization,Content-Type",
     exposedHeaders: "Authorization",
   })
@@ -41,6 +42,12 @@ app.use(
 
 // defining route or a middleware function in an Express application
 app.use("/", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PATCH,HEAD,OPTIONS,POST,PUT");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization"
+  );
   const jf = {
     status: "success",
     message: "Hi you hit the procraste-no-more api endpoint",
