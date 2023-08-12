@@ -2,23 +2,7 @@
 import { useState } from "react";
 import { postNewUser } from "../helpers/axiosHelper";
 import { toast } from "react-toastify";
-
-/**
- *  Frontend 1
- *      - register page
- *      - form & initialState: fullName, password, confirmPassword, email
- *      - onChange and onSubmit/onClick event in form
- *  Backend 1
- *      - created userRouter with express
- *      - test the api ep with fake data
- *      - call that ep with axios and call the function on handleSubmit
- *      - made schema for user
- *  Frontend 2
- *      - onSubmit send the userInfo excluding confirmPassword
- *  Backend 2
- *      - created user modal to save the user in db
- *      - called the modal function in client req route ep to register him and save him in db
- */
+import { Link } from "react-router-dom";
 
 const initialState = {
   fullName: "",
@@ -144,12 +128,12 @@ const Register = () => {
 
           <div className="text-grey-dark mt-6">
             Already have an account?{" "}
-            <a
+            <Link
               className="no-underline border-b border-blue- text-blue"
-              href="/login"
+              to="/login"
             >
               Log in
-            </a>
+            </Link>
             .
           </div>
         </div>

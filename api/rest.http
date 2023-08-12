@@ -46,3 +46,12 @@ Content-Type: application/json
     "email":"<EMAIL>",
     "password": "<PASSWORD>"
 }
+
+### Post new user login
+POST http://localhost:8000/api/v1/user/login
+Content-Type: application/json
+
+{
+    "email": "kb@g.com",
+    "password": "asfgh"
+}

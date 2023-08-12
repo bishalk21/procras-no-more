@@ -1,5 +1,5 @@
 import express from "express";
-import { insertNewUser } from "../model/users/UserModel.js";
+import { findExistingUser, insertNewUser } from "../model/users/UserModel.js";
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
@@ -16,6 +16,28 @@ router.post("/", async (req, res, next) => {
           message:
             "An error has occurred while creating your account. Please try again",
         });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await findExistingUser({ email });
+
+    if (user?.password === password) {
+      user.password = undefined;
+      return res.json({
+        status: "success",
+        message: "Login Successful",
+        user,
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Invalid credentials",
+    });
   } catch (error) {
     next(error);
   }

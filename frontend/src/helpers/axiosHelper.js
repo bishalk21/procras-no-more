@@ -90,3 +90,15 @@ export const postNewUser = async (user) => {
     };
   }
 };
+
+export const postLoginUser = async (user) => {
+  try {
+    const { data } = await axios.post(userEp + "login", user);
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

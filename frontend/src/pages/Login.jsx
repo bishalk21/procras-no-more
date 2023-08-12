@@ -1,6 +1,27 @@
-import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserAction } from "../reducers/users/userAction";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    user._id && navigate("/");
+  }, [user, navigate]);
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    dispatch(loginUserAction({ email, password }));
+  };
+
   return (
     <>
       <div className="flex items-center min-w-[60%] min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
@@ -25,6 +46,7 @@ const Login = () => {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  ref={emailRef}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -51,6 +73,7 @@ const Login = () => {
               <div className="mt-2">
                 <input
                   id="password"
+                  ref={passwordRef}
                   name="password"
                   type="password"
                   autoComplete="current-password"
@@ -62,6 +85,7 @@ const Login = () => {
 
             <div>
               <button
+                onClick={handleOnSubmit}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

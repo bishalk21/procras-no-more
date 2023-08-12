@@ -16,6 +16,9 @@ import { MemoizedCustomModal } from "./components/modal/CustomModal";
 import EditTask from "./components/EditTask";
 const MemoizedTimeNotify = React.memo(TimeNotify);
 import { ToastContainer } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { userLogoutAction } from "./reducers/users/userAction";
+import { useSelector } from "react-redux";
 
 function App() {
   const [editedTask, setEditedTask] = useState({
@@ -35,10 +38,14 @@ function App() {
     isModalOpen: false,
     newTask: null, // Store the details of the new task to display in the notification
   });
+  const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     getTasks();
-  }, []);
+    !user?._id && navigate("/");
+  }, [user, navigate]);
 
   const handleOnEdit = (task) => {
     // console.log("Editing tas k with _id:", task._id); // Editing task with _id: undefined
@@ -98,7 +105,12 @@ function App() {
     <>
       <ToastContainer />
       <div className="flex max-w-[85%] text-sm flex-col w-full h-full bg-white mx-auto pt-8 p-0 items-start">
-        <h1 className="font-bold text-xl mb-2">New Task</h1>
+        <div className="flex gap-14 justify-between">
+          <h1 className="font-bold text-xl mb-2">New Task</h1>
+          <button type="submit" onClick={() => userLogoutAction()}>
+            Log out
+          </button>
+        </div>
         <MemoizedTimeNotify
           setTaskNotifications={setTaskNotifications}
           notificationCount={taskNotifications}
