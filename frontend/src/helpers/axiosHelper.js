@@ -6,7 +6,7 @@ import axios from "axios";
 
 const rootURL =
   process.env.NODE_ENV === "production"
-    ? ""
+    ? "https://procras-no-more-api.vercel.app"
     : "https://procras-no-more-api.vercel.app";
 
 // ENDPOINT
