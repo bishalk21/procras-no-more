@@ -8,6 +8,7 @@ import {
   updateTask,
   updateTaskAll,
 } from "../model/tasks/TaskModel.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
@@ -63,7 +64,7 @@ router.get("/", async (req, res, next) => {
 //   }
 // });
 
-router.patch("/", async (req, res, next) => {
+router.patch("/", authMiddleware, async (req, res, next) => {
   try {
     const { _id, type } = req.body;
     const result = await updateTask(_id, type);
@@ -79,7 +80,7 @@ router.patch("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:_id", async (req, res, next) => {
+router.patch("/:_id", authMiddleware, async (req, res, next) => {
   try {
     // console.log("Received PATCH request:", req.params);
 
@@ -104,7 +105,7 @@ router.patch("/:_id", async (req, res, next) => {
   }
 });
 
-router.delete("/:_id", async (req, res, next) => {
+router.delete("/:_id", authMiddleware, async (req, res, next) => {
   try {
     const { _id } = req.params;
     const result = await deleteTask(_id);
