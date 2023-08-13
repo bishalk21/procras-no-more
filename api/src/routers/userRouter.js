@@ -39,6 +39,10 @@ router.post("/login", async (req, res, next) => {
       message: "Invalid credentials",
     });
   } catch (error) {
+    if (error.message.includes("E1100 duplicate key error collection")) {
+      error.status = 200;
+      error.message = "Email already exists";
+    }
     next(error);
   }
 });

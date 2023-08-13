@@ -5,7 +5,7 @@ import TaskList from "./TaskList";
 import { useEffect } from "react";
 import { fetchTaskAction } from "../../reducers/tasks/tasksAction";
 
-const ListArea = ({ ids, handleOnEdit, switchTask, handleOnDelete }) => {
+const ListArea = ({ handleOnEdit }) => {
   const { tasks } = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
 
@@ -21,20 +21,14 @@ const ListArea = ({ ids, handleOnEdit, switchTask, handleOnDelete }) => {
       <TaskList
         title="TASK LISTS"
         name="not completed"
-        ids={ids}
         handleOnEdit={handleOnEdit}
         list={entryList}
-        switchTask={switchTask}
-        handleOnDelete={handleOnDelete}
       />
       <TaskList
         title="COMPLETED"
         name="completed"
-        ids={ids}
         handleOnEdit={handleOnEdit}
         list={completedList}
-        switchTask={switchTask}
-        handleOnDelete={handleOnDelete}
       />
     </>
   );

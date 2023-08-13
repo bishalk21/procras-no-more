@@ -17,16 +17,16 @@ export const getTaskById = (_id) => {
 };
 
 // UPDATE
-export const updateTask = (_id, type) => {
-  return Task.findByIdAndUpdate(_id, { type: type }, { new: true });
+export const updateTask = async (_id, type) => {
+  return await Task.findByIdAndUpdate(_id, { type: type }, { new: true });
 };
 
-export const updateTaskAll = ({ _id, ...rest }) => {
-  return Task.findByIdAndUpdate(_id, rest, { new: true });
+export const updateTaskAll = async ({ _id, ...rest }) => {
+  return await Task.findByIdAndUpdate(_id, rest, { new: true });
 };
 
-export const deleteTask = (_id) => {
-  return Task.findByIdAndDelete(_id);
+export const deleteTask = async (_id) => {
+  return await Task.findByIdAndDelete(_id);
 };
 
 export const deleteAllTask = (ids) => {

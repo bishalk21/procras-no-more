@@ -5,21 +5,13 @@ import CreateTask, { CreateDateTask } from "./components/CreateTask";
 import ProjectList from "./components/ProjectList";
 import TimeNotify from "./components/TimeNotify";
 import ListArea from "./components/list-area/ListArea";
-import {
-  deleteTask,
-  fetchTasks,
-  postTask,
-  updateTaskAll,
-  updateTasks,
-} from "./helpers/axiosHelper";
+import { deleteTask, updateTaskAll } from "./helpers/axiosHelper";
 import { MemoizedCustomModal } from "./components/modal/CustomModal";
 import EditTask from "./components/EditTask";
 const MemoizedTimeNotify = React.memo(TimeNotify);
-import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogoutAction } from "./reducers/users/userAction";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTaskAction, postTaskAction } from "./reducers/tasks/tasksAction";
 
 function App() {
   const [editedTask, setEditedTask] = useState({
@@ -29,8 +21,6 @@ function App() {
     date: "2023-08-08",
     type: "completed",
   });
-  const [tasksList, setTasksList] = useState([]);
-  const [ids, setIds] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [taskNotifications, setTaskNotifications] = useState({
@@ -70,10 +60,10 @@ function App() {
   //     }));
   // };
 
-  const handleOnUpdateTasks = async (task) => {
-    const result = await updateTaskAll(task);
-    result.status === "success" && fetchTaskAction();
-  };
+  // const handleOnUpdateTasks = async (task) => {
+  //   const result = await updateTaskAll(task);
+  //   result.status === "success" && fetchTaskAction();
+  // };
 
   // const addTask = async (task) => {
   //   const result = await dispatch(postTaskAction(task));
@@ -87,22 +77,17 @@ function App() {
   //     }));
   // };
 
-  const switchTask = async (_id, type) => {
-    const data = await updateTasks({ _id, type });
-    data.status === "success" && fetchTaskAction();
-  };
+  // const handleOnDelete = async (_id) => {
+  //   if (!window.confirm("Are you sure you want to delete?")) {
+  //     return;
+  //   }
 
-  const handleOnDelete = async (_id) => {
-    if (!window.confirm("Are you sure you want to delete?")) {
-      return;
-    }
-
-    const data = await deleteTask(_id);
-    if (data.status === "success") {
-      fetchTaskAction();
-      setIds([]);
-    }
-  };
+  //   const data = await deleteTask(_id);
+  //   if (data.status === "success") {
+  //     fetchTaskAction();
+  //     setIds([]);
+  //   }
+  // };
 
   const handleTomorrowClick = useCallback(() => {
     setShowModal((prevShowModal) => !prevShowModal);
@@ -153,25 +138,12 @@ function App() {
         />
         <ProjectList />
         <CreateTask />
-        <ListArea
-          ids={ids}
-          switchTask={switchTask}
-          handleOnDelete={handleOnDelete}
-          handleOnEdit={handleOnEdit}
-        />
+        <ListArea handleOnEdit={handleOnEdit} />
 
         <>
           {showEdit && editedTask && (
-            <MemoizedCustomModal onClose={() => setShowModal(false)}>
-              <EditTask
-                title="Update Task"
-                editedTask={editedTask}
-                UpdateTask={handleOnUpdateTasks}
-                onClose={() => {
-                  setShowModal(false);
-                  setEditedTask(null);
-                }}
-              />
+            <MemoizedCustomModal onClose={() => setShowEdit(false)}>
+              <EditTask title="Update Task" editedTask={editedTask} />
             </MemoizedCustomModal>
           )}
         </>
