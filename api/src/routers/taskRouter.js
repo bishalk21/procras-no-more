@@ -23,28 +23,45 @@ router.post("/", async (req, res, next) => {
       : {
           status: "success",
           message: "Sorry, the task cannot be added",
-          result,
         };
   } catch (error) {
-    error.status = 500;
     next(error);
   }
 });
 
-router.get("/:_id?", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const { _id } = req.params;
-    const result = _id ? await getTaskById(_id) : await getTask();
+    const { authorization } = req.headers;
+
+    const filter = {
+      UserID: authorization,
+    };
+
+    const tasks = (await getTask(filter)) || [];
     res.json({
       status: "success",
-      message: "return from get method, task router",
-      result,
+      message: "task by user id",
+      tasks,
     });
   } catch (error) {
-    error.status = 500;
     next(error);
   }
 });
+
+// router.get("/:_id?", async (req, res, next) => {
+//   try {
+//     const { _id } = req.params;
+//     const result = _id ? await getTaskById(_id) : await getTask(filter);
+//     res.json({
+//       status: "success",
+//       message: "return from get method, task router",
+//       result,
+//     });
+//   } catch (error) {
+//     error.status = 500;
+//     next(error);
+//   }
+// });
 
 router.patch("/", async (req, res, next) => {
   try {

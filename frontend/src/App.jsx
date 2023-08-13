@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogoutAction } from "./reducers/users/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchTaskAction, postTaskAction } from "./reducers/tasks/tasksAction";
 
 function App() {
   const [editedTask, setEditedTask] = useState({
@@ -44,8 +45,8 @@ function App() {
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    getTasks();
-  }, []);
+    !user._id && navigate("/");
+  }, [user, navigate]);
 
   const handleOnLogout = () => {
     // sessionStorage.removeItem("user");
@@ -59,36 +60,36 @@ function App() {
     setShowEdit(true);
   };
 
-  const getTasks = async () => {
-    const data = await fetchTasks();
-    data.status === "success" &&
-      setTasksList(data.result) &&
-      setTaskNotifications((prevNotifications) => ({
-        ...prevNotifications,
-        tasks: data.result,
-      }));
-  };
+  // const fetchTaskAction = async () => {
+  //   const data = await dispatch(fetchTaskAction());
+  //   data.status === "success" &&
+  //     setTasksList(data.result) &&
+  //     setTaskNotifications((prevNotifications) => ({
+  //       ...prevNotifications,
+  //       tasks: data.result,
+  //     }));
+  // };
 
   const handleOnUpdateTasks = async (task) => {
     const result = await updateTaskAll(task);
-    result.status === "success" && getTasks();
+    result.status === "success" && fetchTaskAction();
   };
 
-  const addTask = async (task) => {
-    const result = await postTask(task);
-    result.status === "success" &&
-      getTasks() &&
-      setTaskNotifications((prevNotifications) => ({
-        ...prevNotifications,
-        count: prevNotifications.count + 1,
-        newTask: task, // Store the details of the new task
-        isModalOpen: true, // Show the notification modal
-      }));
-  };
+  // const addTask = async (task) => {
+  //   const result = await dispatch(postTaskAction(task));
+  //   result.status === "success" &&
+  //     fetchTaskAction() &&
+  //     setTaskNotifications((prevNotifications) => ({
+  //       ...prevNotifications,
+  //       count: prevNotifications.count + 1,
+  //       newTask: task, // Store the details of the new task
+  //       isModalOpen: true, // Show the notification modal
+  //     }));
+  // };
 
   const switchTask = async (_id, type) => {
     const data = await updateTasks({ _id, type });
-    data.status === "success" && getTasks();
+    data.status === "success" && fetchTaskAction();
   };
 
   const handleOnDelete = async (_id) => {
@@ -98,7 +99,7 @@ function App() {
 
     const data = await deleteTask(_id);
     if (data.status === "success") {
-      getTasks();
+      fetchTaskAction();
       setIds([]);
     }
   };
@@ -151,11 +152,10 @@ function App() {
           handleTomorrowClick={handleTomorrowClick}
         />
         <ProjectList />
-        <CreateTask addTask={addTask} />
+        <CreateTask />
         <ListArea
           ids={ids}
           switchTask={switchTask}
-          tasksList={tasksList}
           handleOnDelete={handleOnDelete}
           handleOnEdit={handleOnEdit}
         />
@@ -180,13 +180,10 @@ function App() {
           <MemoizedCustomModal onClose={() => setShowModal(false)}>
             <CreateDateTask
               title="Create Date Task" // Provide a title for CreateDateTask
-              addTask={addTask}
             />
           </MemoizedCustomModal>
         )}
       </div>
-
-      <ToastContainer />
     </>
   );
 }

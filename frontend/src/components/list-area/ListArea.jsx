@@ -1,16 +1,20 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+import { useDispatch, useSelector } from "react-redux";
 import TaskList from "./TaskList";
+import { useEffect } from "react";
+import { fetchTaskAction } from "../../reducers/tasks/tasksAction";
 
-const ListArea = ({
-  ids,
-  handleOnEdit,
-  tasksList,
-  switchTask,
-  handleOnDelete,
-}) => {
-  const entryList = tasksList.filter(({ type }) => type === "not completed");
-  const completedList = tasksList.filter(({ type }) => type === "completed");
+const ListArea = ({ ids, handleOnEdit, switchTask, handleOnDelete }) => {
+  const { tasks } = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTaskAction());
+  }, [dispatch]);
+
+  const entryList = tasks.filter(({ type }) => type === "not completed");
+  const completedList = tasks.filter(({ type }) => type === "completed");
 
   return (
     <>

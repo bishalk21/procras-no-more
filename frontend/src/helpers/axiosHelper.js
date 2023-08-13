@@ -20,7 +20,13 @@ const userEp = rootURL + "/api/v1/user/";
 
 export const postTask = async (task) => {
   try {
-    const { data } = await axios.post(taskEp, task);
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const UserID = user._id;
+    const { data } = await axios.post(taskEp, task, {
+      headers: {
+        authorization: UserID,
+      },
+    });
     return data;
   } catch (error) {
     return {
@@ -32,7 +38,13 @@ export const postTask = async (task) => {
 
 export const fetchTasks = async () => {
   try {
-    const { data } = await axios.get(taskEp);
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const UserID = user._id;
+    const { data } = await axios.get(taskEp, {
+      headers: {
+        authorization: UserID,
+      },
+    });
     return data;
   } catch (error) {
     return {

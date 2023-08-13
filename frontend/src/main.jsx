@@ -7,6 +7,7 @@ import Login from "./pages/Login.jsx";
 import { Provider } from "react-redux";
 import Register from "./pages/Register.jsx";
 import store from "./reducers/store.js";
+import { ToastContainer } from "react-toastify";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,6 +18,12 @@ const appRouter = createBrowserRouter([
   {
     path: "/dashboard",
     element: <App />,
+    children: [
+      {
+        path: "",
+        element: <ToastContainer />,
+      },
+    ],
   },
   {
     path: "/login",

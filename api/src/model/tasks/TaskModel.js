@@ -3,13 +3,13 @@ import Task from "./TaskSchema.js";
 // crud operations
 
 // CREATE
-export const insertTask = (task) => {
-  return Task(task).save();
+export const insertTask = async (task) => {
+  return await Task(task).save();
 };
 
 // READ
-export const getTask = () => {
-  return Task.find();
+export const getTask = async (filter) => {
+  return await Task.find(filter);
 };
 
 export const getTaskById = (_id) => {

@@ -2,7 +2,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React, { useState, memo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { postTaskAction } from "../reducers/tasks/tasksAction";
 
 const initialState = {
   task: "",
@@ -11,8 +13,9 @@ const initialState = {
   type: "not completed",
 };
 
-const CreateTask = ({ addTask, tomorrow }) => {
-  const [tasks, setTasks] = useState(initialState);
+const CreateTask = ({ tomorrow }) => {
+  const [task, setTask] = useState(initialState);
+  const dispatch = useDispatch();
 
   // function to capture the data from search form and pass it to app.js
   const handleOnSearch = (e) => {
@@ -21,26 +24,27 @@ const CreateTask = ({ addTask, tomorrow }) => {
     // console.log(name, value);
 
     // updating the state
-    setTasks({ ...tasks, [name]: value });
+    setTask({ ...task, [name]: value });
     // name in square bracket is for dynamic property name of form
   };
 
-  // function to handle form submit and pass the tasks to app
-  const handleOnSubmit = (e) => {
+  // function to handle form submit and pass the task to app
+  const handleOnSubmit = async (e) => {
     e.preventDefault(); // prevent from browser to load
 
-    // passing the tasks to app
+    // passing the task to app
     // no need now sending data to database where id will be assigned
-    // addTask({ ...tasks, id: uuidv4() });
-    // addTask(tasks);
+    // addTask({ ...task, id: uuidv4() });
+    // addTask(task);
 
-    // Update tasks object to include the date from the "tomorrow" prop
-    const updatedTasks = { ...tasks, date: tomorrow };
-    // console.log(updatedTasks);
-    // passing the updated tasks to app
-    addTask(updatedTasks);
+    // Update task object to include the date from the "tomorrow" prop
+    const updatedTask = { ...task, date: tomorrow };
+    // console.log(updatedTask);
+    // passing the updated task to app
+    // addTask(updatedTask);
+    dispatch(postTaskAction(updatedTask));
     // resetting the task object after adding a new one
-    setTasks({});
+    // setTask(initialState);
   };
 
   return (
@@ -111,7 +115,7 @@ export const withTomorrowDate = (WrappedComponent) => {
           min={new Date().toISOString().slice(0, 10)}
         />
         <br />
-        <WrappedComponent {...props} addTask={props.addTask} tomorrow={date} />
+        <WrappedComponent {...props} tomorrow={date} />
       </div>
     );
   };
