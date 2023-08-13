@@ -2,14 +2,11 @@
 import axios from "axios";
 
 // production vs development version
-// const rootURL =
-//   process.env.NODE_ENV === "production"
-//     ? "https://procras-no-more-api.vercel.app"
-//     : "http://localhost:8000";
+// const rootURL = "http://localhost:8000";
 
 const rootURL =
   process.env.NODE_ENV === "production"
-    ? "https://procras-no-more-api.vercel.app"
+    ? ""
     : "https://procras-no-more-api.vercel.app";
 
 // ENDPOINT

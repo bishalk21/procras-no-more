@@ -39,7 +39,10 @@ const EditTask = ({ title, editedTask, onClose }) => {
     <div onClick={onClose}>
       <h3>{title}</h3>
 
-      <form className="flex flex-col gap-1" onSubmit={handleUpdate}>
+      <form
+        className="flex flex-col gap-1 min-h-fit min-w-full"
+        onSubmit={handleUpdate}
+      >
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
