@@ -10,7 +10,10 @@ const CustomModal = ({ onClose, children }) => {
   };
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content relative" onClick={handleContentClick}>
+      <div
+        className="modal-content relative w-11/12 max-w-xl"
+        onClick={handleContentClick}
+      >
         {children}
         <button onClick={onClose} className="absolute right-8 top-11">
           <i className="fa-solid fa-x"></i>

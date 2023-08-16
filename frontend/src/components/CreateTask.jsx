@@ -1,7 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { postTaskAction } from "../reducers/tasks/tasksAction";
@@ -14,8 +10,12 @@ const initialState = {
 };
 
 const CreateTask = ({ tomorrow }) => {
-  const [task, setTask] = useState(initialState);
+  const [taskList, setTaskList] = useState(initialState);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTaskList(initialState);
+  }, []);
 
   // function to capture the data from search form and pass it to app.js
   const handleOnSearch = (e) => {
@@ -24,12 +24,12 @@ const CreateTask = ({ tomorrow }) => {
     // console.log(name, value);
 
     // updating the state
-    setTask({ ...task, [name]: value });
+    setTaskList({ ...taskList, [name]: value });
     // name in square bracket is for dynamic property name of form
   };
 
   // function to handle form submit and pass the task to app
-  const handleOnSubmit = async (e) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault(); // prevent from browser to load
 
     // passing the task to app
@@ -38,13 +38,11 @@ const CreateTask = ({ tomorrow }) => {
     // addTask(task);
 
     // Update task object to include the date from the "tomorrow" prop
-    const updatedTask = { ...task, date: tomorrow };
+    const updatedTask = { ...taskList, date: tomorrow };
     // console.log(updatedTask);
     // passing the updated task to app
     // addTask(updatedTask);
-    dispatch(postTaskAction(updatedTask));
-    // resetting the task object after adding a new one
-    // setTask(initialState);
+    dispatch(postTaskAction(updatedTask)) && setTaskList(initialState);
   };
 
   return (
@@ -57,6 +55,7 @@ const CreateTask = ({ tomorrow }) => {
             placeholder="Task Name"
             className="text-black w-4/6"
             name="task"
+            value={taskList.task} // Add this line
             onChange={handleOnSearch}
           />
           <input
@@ -64,6 +63,7 @@ const CreateTask = ({ tomorrow }) => {
             className="w-2/6"
             placeholder="10"
             name="hours"
+            value={taskList.hours} // Add this line
             onChange={handleOnSearch}
           />
         </div>
@@ -72,6 +72,8 @@ const CreateTask = ({ tomorrow }) => {
           name="description"
           placeholder="Enter Description"
           id="description"
+          value={taskList.description} // Add this line
+          onChange={handleOnSearch}
         />
         <p className="absolute bottom-4 right-0 italic transform -translate-x-1/2 -translate-y-1/2">
           (optional)

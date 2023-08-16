@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import axios from "axios";
 
 // production vs development version
@@ -18,14 +17,17 @@ const userEp = rootURL + "/api/v1/user/";
 export const postTask = async (task) => {
   try {
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const UserID = user._id;
+    const UserID = user ? user._id : null;
+
     const { data } = await axios.post(taskEp, task, {
       headers: {
         authorization: UserID,
       },
     });
+
     return data;
   } catch (error) {
+    console.error("Error posting task:", error);
     return {
       status: "error",
       message: error.message,
@@ -36,14 +38,12 @@ export const postTask = async (task) => {
 export const fetchTasks = async () => {
   try {
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const UserID = user._id;
+    const UserID = user ? user._id : null;
     const { data } = await axios.get(taskEp, {
       headers: {
         authorization: UserID,
       },
     });
-
-    console.log(data);
     return data;
   } catch (error) {
     return {
@@ -53,9 +53,19 @@ export const fetchTasks = async () => {
   }
 };
 
-export const updateTasks = async (task) => {
+export const updateTasks = async (_id, type) => {
   try {
-    const { data } = await axios.patch(taskEp, task);
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const UserID = user ? user._id : null;
+    const { data } = await axios.patch(
+      taskEp,
+      { _id, type },
+      {
+        headers: {
+          authorization: UserID,
+        },
+      }
+    );
     return data;
   } catch (error) {
     return {
@@ -67,13 +77,18 @@ export const updateTasks = async (task) => {
 
 export const updateTaskAll = async (task) => {
   try {
-    const { _id, ...rest } = task;
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const UserID = user ? user._id : null;
 
-    if (!_id) {
+    if (!task._id) {
       throw new Error("Task ID (_id) is undefined.");
     }
 
-    const { data } = await axios.patch(`${taskEp}${_id}`, rest);
+    const { data } = await axios.patch(`${taskEp}${task._id}`, task, {
+      headers: {
+        authorization: UserID,
+      },
+    });
     return data;
   } catch (error) {
     return {
@@ -85,7 +100,14 @@ export const updateTaskAll = async (task) => {
 
 export const deleteTask = async (_id) => {
   try {
-    const { data } = await axios.delete(`${taskEp}${_id}`);
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    // const UserID = user._id;
+    const UserID = user ? user._id : null;
+    const { data } = await axios.delete(`${taskEp}${_id}`, {
+      headers: {
+        authorization: UserID,
+      },
+    });
     return data;
   } catch (error) {
     return {

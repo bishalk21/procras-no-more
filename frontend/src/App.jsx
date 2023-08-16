@@ -1,17 +1,16 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import CreateTask, { CreateDateTask } from "./components/CreateTask";
 import ProjectList from "./components/ProjectList";
 import TimeNotify from "./components/TimeNotify";
 import ListArea from "./components/list-area/ListArea";
-import { deleteTask, updateTaskAll } from "./helpers/axiosHelper";
 import { MemoizedCustomModal } from "./components/modal/CustomModal";
 import EditTask from "./components/EditTask";
 const MemoizedTimeNotify = React.memo(TimeNotify);
 import { Link, useNavigate } from "react-router-dom";
 import { userLogoutAction } from "./reducers/users/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchTaskAction } from "./reducers/tasks/tasksAction";
 
 function App() {
   const [editedTask, setEditedTask] = useState({
@@ -35,59 +34,19 @@ function App() {
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    !user._id && navigate("/");
+    navigate("/");
   }, [user, navigate]);
 
   const handleOnLogout = () => {
-    // sessionStorage.removeItem("user");
     dispatch(userLogoutAction());
+    dispatch(fetchTaskAction()); // Fetch tasks even when the user logs out
     navigate("/");
   };
 
   const handleOnEdit = (task) => {
-    // console.log("Editing tas k with _id:", task._id); // Editing task with _id: undefined
     setEditedTask(task);
     setShowEdit(true);
   };
-
-  // const fetchTaskAction = async () => {
-  //   const data = await dispatch(fetchTaskAction());
-  //   data.status === "success" &&
-  //     setTasksList(data.result) &&
-  //     setTaskNotifications((prevNotifications) => ({
-  //       ...prevNotifications,
-  //       tasks: data.result,
-  //     }));
-  // };
-
-  // const handleOnUpdateTasks = async (task) => {
-  //   const result = await updateTaskAll(task);
-  //   result.status === "success" && fetchTaskAction();
-  // };
-
-  // const addTask = async (task) => {
-  //   const result = await dispatch(postTaskAction(task));
-  //   result.status === "success" &&
-  //     fetchTaskAction() &&
-  //     setTaskNotifications((prevNotifications) => ({
-  //       ...prevNotifications,
-  //       count: prevNotifications.count + 1,
-  //       newTask: task, // Store the details of the new task
-  //       isModalOpen: true, // Show the notification modal
-  //     }));
-  // };
-
-  // const handleOnDelete = async (_id) => {
-  //   if (!window.confirm("Are you sure you want to delete?")) {
-  //     return;
-  //   }
-
-  //   const data = await deleteTask(_id);
-  //   if (data.status === "success") {
-  //     fetchTaskAction();
-  //     setIds([]);
-  //   }
-  // };
 
   const handleTomorrowClick = useCallback(() => {
     setShowModal((prevShowModal) => !prevShowModal);
@@ -105,7 +64,7 @@ function App() {
             <button
               type="submit"
               onClick={handleOnLogout}
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-1 rounded inline-flex gap-1 items-center"
+              className="bg-gray-300 max-h-10 min-w-fit hover:bg-gray-400 text-gray-800 font-bold p-2 rounded inline-flex gap-1 items-center"
             >
               <i className="fa-solid fa-right-from-bracket"></i>
               <span> Log out</span>

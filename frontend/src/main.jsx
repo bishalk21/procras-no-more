@@ -12,11 +12,6 @@ import { ToastContainer } from "react-toastify";
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
-    children: [],
-  },
-  {
-    path: "/dashboard",
     element: <App />,
     children: [
       {
@@ -26,12 +21,16 @@ const appRouter = createBrowserRouter([
     ],
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/dashboard",
+    element: <App />,
   },
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

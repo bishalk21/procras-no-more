@@ -9,6 +9,7 @@ export default defineConfig({
   eslintConfig: {
     rules: {
       "no-unused-vars": "off",
+      "react/prop-types": "off",
     },
   },
   env: {

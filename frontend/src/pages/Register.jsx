@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { postNewUser } from "../helpers/axiosHelper";
 import { toast } from "react-toastify";

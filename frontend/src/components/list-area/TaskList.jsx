@@ -1,24 +1,19 @@
-/* eslint-disable react/prop-types */
-
 import { useDispatch } from "react-redux";
 import {
   deleteTaskAction,
-  fetchTaskAction,
   switchTaskAction,
 } from "../../reducers/tasks/tasksAction";
-import { useEffect } from "react";
 
-/* eslint-disable no-unused-vars */
 const TaskList = ({ list, handleOnEdit, title, name }) => {
-  // console.log(list);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchTaskAction());
-  }, [dispatch]);
 
   const handleOnEditItem = (item) => {
     handleOnEdit(item);
+  };
+
+  const handleCheckboxClick = (itemID, itemType) => {
+    const newType = itemType === "completed" ? "not completed" : "completed";
+    dispatch(switchTaskAction(itemID, newType));
   };
 
   return (
@@ -48,21 +43,12 @@ const TaskList = ({ list, handleOnEdit, title, name }) => {
                 <tr key={item._id}>
                   <td>
                     <input
-                      onClick={() =>
-                        dispatch(
-                          switchTaskAction(
-                            item._id,
-                            item.type === "completed"
-                              ? "not completed"
-                              : "completed"
-                          )
-                        )
-                      }
+                      onClick={() => handleCheckboxClick(item._id, item.type)}
                       id="checked-checkbox"
                       type="checkbox"
-                      checked={item.type === "completed"}
-                      value={item._id}
                       readOnly
+                      value={item.type}
+                      checked={item.type === "completed"}
                     ></input>
                   </td>
                   <td className="task-name">{item.task}</td>

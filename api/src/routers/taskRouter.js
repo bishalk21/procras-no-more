@@ -3,12 +3,10 @@ import {
   deleteAllTask,
   deleteTask,
   getTask,
-  getTaskById,
   insertTask,
   updateTask,
   updateTaskAll,
 } from "../model/tasks/TaskModel.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
@@ -64,15 +62,32 @@ router.get("/", async (req, res, next) => {
 //   }
 // });
 
-router.patch("/", authMiddleware, async (req, res, next) => {
+router.patch("/", async (req, res, next) => {
   try {
+    const { authorization } = req.headers;
     const { _id, type } = req.body;
-    const result = await updateTask(_id, type);
 
-    res.json({
-      status: "success",
-      message: "successfully updated task",
-      result,
+    if (authorization || _id || type) {
+      // if user is logged in and has valid id
+      const filter = {
+        UserID: authorization,
+        _id,
+      };
+      const update = { type: type }; // Update the type field
+      const options = { new: true }; // Return the updated document
+      const result = await updateTask(filter, update, options);
+
+      if (result?._id) {
+        return res.json({
+          status: "success",
+          message: "successfully updated task",
+          result,
+        });
+      }
+    }
+    return res.json({
+      status: "error",
+      message: "Invalid Credentials",
     });
   } catch (error) {
     error.status = 500;
@@ -80,9 +95,10 @@ router.patch("/", authMiddleware, async (req, res, next) => {
   }
 });
 
-router.patch("/:_id", authMiddleware, async (req, res, next) => {
+router.patch("/:_id", async (req, res, next) => {
   try {
     // console.log("Received PATCH request:", req.params);
+    const { authorization } = req.headers;
 
     const { task, hours, date, type } = req.body;
     const { _id } = req.params; // Access _id directly from req.params
@@ -94,25 +110,54 @@ router.patch("/:_id", authMiddleware, async (req, res, next) => {
       type,
     };
 
-    const result = await updateTaskAll({ _id, ...updatedTask });
-    res.json({
-      status: "success",
-      message: "Task updated",
-      result,
+    if (authorization || _id || updatedTask) {
+      const filter = {
+        UserID: authorization,
+        _id,
+      };
+      const result = await updateTaskAll(_id, updatedTask);
+      if (result?._id) {
+        return res.json({
+          status: "success",
+          message: "successfully updated task",
+          result,
+        });
+      }
+    }
+    return res.json({
+      status: "error",
+      message: "Invalid Credentials",
     });
   } catch (error) {
     next(error);
   }
 });
 
-router.delete("/:_id", authMiddleware, async (req, res, next) => {
+router.delete("/:_id", async (req, res, next) => {
   try {
+    const { authorization } = req.headers;
     const { _id } = req.params;
-    const result = await deleteTask(_id);
-    res.json({
-      status: "success",
-      message: "Task successfully deleted",
-      result,
+
+    if (authorization || _id) {
+      // if user is logged in and has valid id
+      const filter = {
+        UserID: authorization,
+        _id,
+      };
+
+      const result = await deleteTask(filter);
+
+      if (result?._id) {
+        return res.json({
+          status: "success",
+          message: "Transaction deleted successfully",
+        });
+      }
+    }
+
+    return res.json({
+      status: "error",
+      message: "Invalid Credentials",
     });
   } catch (error) {
     error.status = 500;

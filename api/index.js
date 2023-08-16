@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import "dotenv/config";
 import express from "express"; // handling http requests, view rendering, application settings, middleware, - create and configure a web server
 import helmet from "helmet";
@@ -8,7 +7,6 @@ import cors from "cors";
 import { dbConnect } from "./src/config/dbConfig.js";
 import taskRouter from "./src/routers/taskRouter.js";
 import userRouter from "./src/routers/userRouter.js";
-import { authMiddleware } from "./src/middleware/authMiddleware.js";
 
 const app = express(); // instance of the Express application, which represents your web server.
 // console.log(app);
@@ -23,8 +21,8 @@ const PORT = process.env.PORT || 8000;
 dbConnect();
 
 // setting up and using an Express router to handle routes related to tasks.
-app.use("/api/v1/task", authMiddleware, taskRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/task", taskRouter);
 
 // const __dirname = path.resolve();
 

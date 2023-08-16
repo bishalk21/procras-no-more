@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 // EditTask.jsx
 import { useState } from "react";
 import { editTaskAction } from "../reducers/tasks/tasksAction";
@@ -6,7 +5,6 @@ import { useDispatch } from "react-redux";
 
 const EditTask = ({ title, editedTask, onClose }) => {
   const [updatedTask, setUpdatedTask] = useState(editedTask);
-  //   console.log(editedTask); // 64cf3fadefb1c13d4eb59a43
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -16,8 +14,6 @@ const EditTask = ({ title, editedTask, onClose }) => {
       [name]: value,
     }));
   };
-
-  //   console.log(updatedTask); // 64cf3fadefb1c13d4eb59a43
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -29,7 +25,7 @@ const EditTask = ({ title, editedTask, onClose }) => {
       //   if (result.status === "success") {
       //     onClose();
       //   }
-      dispatch(editTaskAction(updatedTask)) && onClose();
+      dispatch(editTaskAction({ ...updatedTask, _id: editedTask._id }));
     } catch (error) {
       console.error(error);
     }
@@ -64,7 +60,11 @@ const EditTask = ({ title, editedTask, onClose }) => {
           value={updatedTask.date || ""}
           onChange={handleChange}
         />
-        <input type="submit" value="Update" />
+        <input
+          type="submit"
+          value="Update"
+          className="cursor-pointer bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded"
+        />
       </form>
     </div>
   );
